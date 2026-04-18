@@ -3,6 +3,10 @@ main = "src/index.js"
 compatibility_date = "2024-01-01"
 workers_dev = true
 
+[[kv_namespaces]]
+binding = "Links"
+id = "746d5f1629eb4b579724e57993f14060"
+
 [env.production]
 kv_namespaces = [
   { binding = "Links", id = "746d5f1629eb4b579724e57993f14060" }
