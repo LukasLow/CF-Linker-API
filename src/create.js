@@ -19,8 +19,8 @@ function getSuffix(index) {
 export async function handleCreate(request, env) {
   const authHeader = request.headers.get('Authorization');
   
-  // Auth optional: nur prüfen wenn AUTH_PASSWORD gesetzt ist
-  if (env.AUTH_PASSWORD && authHeader !== `Bearer ${env.AUTH_PASSWORD}`) {
+  // Auth immer erforderlich
+  if (authHeader !== `Bearer ${env.AUTH_PASSWORD}`) {
     return new Response('Unauthorized', { status: 401 });
   }
 
