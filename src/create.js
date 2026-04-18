@@ -9,8 +9,11 @@ function generateRandomKey(length = 6) {
 }
 
 function getSuffix(index) {
+  // index 0 = no suffix, index 1 = -a, index 2 = -b, etc.
   if (index === 0) return '';
-  return '-' + BASE62.charAt((index - 1) % 62);
+  // Use lowercase letters only for readability (26 chars), then full base62
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  return '-' + chars.charAt((index - 1) % chars.length);
 }
 
 export async function handleCreate(request, env) {
