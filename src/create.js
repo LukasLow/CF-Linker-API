@@ -18,7 +18,7 @@ export async function handleCreate(request, env) {
       return new Response('Key already exists', { status: 409 });
     }
 
-    await env.Links.put(key, url);
+    await env.Links.put(key, url, { expirationTtl: 15552000 }); // 180 days
 
     return new Response(JSON.stringify({ key, url }), {
       status: 201,
