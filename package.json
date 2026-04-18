@@ -1,0 +1,10 @@
+{
+  "name": "linker-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Cloudflare Worker Link-Shortener",
+  "main": "src/+index.js",
+  "devDependencies": {
+    "wrangler": "latest"
+  }
+}

@@ -1,0 +1,14 @@
+name = "linker-api"
+main = "src/+index.js"
+compatibility_date = "2024-01-01"
+workers_dev = true
+
+[env.production]
+kv_namespaces = [
+  { binding = "Links", id = "746d5f1629eb4b579724e57993f14060" }
+]
+
+[env.preview]
+kv_namespaces = [
+  { binding = "Links", id = "deine-kv-id-hier-preview" }
+]
