@@ -197,6 +197,14 @@
             <button class="copy-btn" on:click={copyUrl} class:copied>
               {copied ? '✅ Kopiert!' : '📋 Kopieren'}
             </button>
+            <div class="qr-section">
+              <p class="qr-label">📱 Oder scanne den QR-Code:</p>
+              <img 
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(result.shortUrl)}`}
+                alt="QR Code"
+                class="qr-code"
+              />
+            </div>
           </div>
           <button class="reset-btn" on:click={reset}>➕ Neuen Link erstellen</button>
         </div>
@@ -669,6 +677,27 @@
   
   .copy-btn.copied {
     background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  }
+  
+  .qr-section {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(6, 182, 212, 0.2);
+    text-align: center;
+  }
+  
+  .qr-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .qr-code {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    background: white;
+    padding: 8px;
   }
   
   .reset-btn {
