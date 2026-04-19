@@ -19,9 +19,9 @@
     return 'https://' + inputUrl;
   }
   
-  function getDomain() {
-    // Protokolllos - passt sich automatisch der aktuellen Domain an
-    return window.location.host;
+  function getFullDomain() {
+    // Vollständige Domain mit https://
+    return 'https://' + window.location.host;
   }
   
   async function handleSubmit() {
@@ -47,8 +47,8 @@
       const data = await response.json();
       
       if (response.ok) {
-        // Protokolllos: //domain.com/key
-        const shortUrl = '//' + getDomain() + '/' + data.key;
+        // Vollständige URL mit https://
+        const shortUrl = getFullDomain() + '/' + data.key;
         result = { success: true, shortUrl, key: data.key };
       } else {
         result = { success: false, message: data.message || 'Unbekannter Fehler' };
