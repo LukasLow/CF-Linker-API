@@ -1,15 +1,41 @@
-# Linker API
+# echter.link 🔗
 
-Ein modularer Cloudflare Worker Link-Shortener mit automatischer Key-Generierung.
+Ein moderner Cloudflare Worker Link-Shortener mit schönem Svelte UI, Schnee-Effekt und QR-Codes.
 
-**Domain:** `linker-api.peeker.workers.dev`
+**Features:**
+
+- ❄️ Animierter Schnee-Hintergrund
+- 🎨 Cyan/Rot Farbschema mit schwarzem Hintergrund
+- 📱 QR-Code Generierung für jeden Link
+- 🔗 Auto-HTTPS – Eingaben wie `google.com` werden automatisch zu `https://google.com`
+- ⚡ Schnelle Weiterleitungen
+- 🔐 Passwort-geschützte Link-Erstellung
+
+## Live Demo
+
+**URL:** `https://linker-api.peeker.workers.dev`
 
 ## Features
 
-- **Auth immer erforderlich** – Passwort via `Authorization: Bearer <password>`
-- **Key optional** – Wird automatisch generiert wenn nicht angegeben (6 Zeichen Base62)
+- **Schönes Svelte UI** – Mit Schnee-Effekt, Animationen und Cyan/Rot Design
+- **QR-Code** – Jeder erstellte Link bekommt einen QR-Code zum Scannen
+- **Auth erforderlich** – Passwort via `Authorization: Bearer <password>`
+- **Key optional** – Automatische 6-Zeichen Base62 Keys
+- **Auto-HTTPS** – URLs ohne Protokoll werden automatisch mit `https://` versehen
+- **Custom Keys** – Optional eigene Kurz-URLs wie `github`, `promo2024`
 - **Auto-Suffix** – Bei Konflikten wird `-a`, `-b`, `-c`... angehängt
 - **180 Tage TTL** – Links löschen sich automatisch nach 180 Tagen
+
+## Web UI
+
+Das Frontend ist in Svelte gebaut und direkt im Worker embedded. Es bietet:
+
+- ❄️ Animierter Schnee-Effekt
+- 🎨 Modernes Cyan/Rot Design auf schwarzem Hintergrund
+- 📱 QR-Code für jeden erstellten Link
+- 🔗 Klickbare Kurz-URLs
+- 📋 Ein-Klick Kopieren
+- 🎨 Optionaler Custom Key mit Toggle
 
 ## API
 
@@ -72,24 +98,40 @@ Oder direkt im Browser:
 https://linker-api.peeker.workers.dev/github
 ```
 
+## Lokale Entwicklung
+
+```bash
+# Frontend bauen
+cd frontend
+npm install
+npm run build
+
+# Worker starten
+cd ..
+node build-assets.js  # Assets in src/assets.js embedden
+npx wrangler dev
+```
+
 ## Deployment
 
-1. `AUTH_PASSWORD` als Secret setzen:
+```bash
+# 1. Secret setzen (erstmalig)
+wrangler secret put AUTH_PASSWORD
 
-   ```bash
-   wrangler secret put AUTH_PASSWORD
-   ```
-
-2. KV Namespace `Links` in `wrangler.toml` konfiguriert
-
-3. Deploy via:
-
-   ```bash
-   npx wrangler deploy
-   ```
+# 2. Frontend bauen und deployen
+cd frontend && npm run build && cd ..
+node build-assets.js
+npx wrangler deploy
+```
 
 ## Struktur
 
-- `src/index.js` - Zentraler Router
+- `frontend/src/` - Svelte UI Komponenten
+  - `App.svelte` - Hauptkomponente mit Schnee-Effekt
+  - `LinkForm.svelte` - Formular mit QR-Code & Copy-Button
+  - `SnowEffect.svelte` - Canvas Schnee-Animation
+- `src/index.js` - Zentraler Router & Asset Serving
 - `src/create.js` - POST-Endpunkt mit Auto-Key & Suffix-Logik
 - `src/redirect.js` - GET-Endpunkt für Weiterleitungen
+- `src/assets.js` - Embedded Frontend Assets (automatisch generiert)
+- `build-assets.js` - Build-Script zum Embedden der Assets
