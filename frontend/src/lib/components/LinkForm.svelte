@@ -153,8 +153,11 @@
         <div class="success-content" in:fade={{ delay: 200 }}>
           <div class="success-icon">🎉</div>
           <h3>Link erstellt!</h3>
-          <div class="result-url-box">
-            <code>{result.shortUrl}</code>
+          <div class="result-box">
+            <a href={result.shortUrl} target="_blank" rel="noopener" class="short-link">
+              <span class="link-emoji">🔗</span>
+              <span class="link-text">{result.shortUrl}</span>
+            </a>
             <button class="copy-btn" on:click={copyUrl} class:copied>
               {copied ? '✅ Kopiert!' : '📋 Kopieren'}
             </button>
@@ -553,19 +556,41 @@
   }
   
   /* Enhanced Result Box */
-  .result-url-box {
+  .result-box {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
     padding: 1rem;
     border-radius: 12px;
     margin: 1rem 0;
-    align-items: center;
     border: 1px solid rgba(6, 182, 212, 0.2);
   }
   
-  .result-url-box code {
-    flex: 1;
+  .short-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .short-link:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: translateY(-1px);
+  }
+  
+  .link-emoji {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  
+  .link-text {
     font-family: 'Monaco', 'Menlo', monospace;
     font-size: 0.9rem;
     color: #67e8f9;
@@ -575,25 +600,25 @@
   }
   
   .copy-btn {
-    padding: 0.6rem 1.2rem;
+    padding: 0.75rem 1.2rem;
     background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    white-space: nowrap;
+    width: 100%;
   }
   
   .copy-btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
   }
   
   .copy-btn.copied {
-    background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
   }
   
   .reset-btn {
