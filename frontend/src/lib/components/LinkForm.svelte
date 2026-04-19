@@ -183,10 +183,10 @@
   {#if result}
     <div 
       class="result {result.success ? 'success' : 'error'}"
-      transition:scale={{ duration: 300, start: 0.9, easing: elasticOut }}
+      in:fade={{ duration: 200 }}
     >
       {#if result.success}
-        <div class="success-content" in:fade={{ delay: 200 }}>
+        <div class="success-content">
           <div class="success-icon">🎉</div>
           <h3>Link erstellt!</h3>
           <div class="result-box">
@@ -201,7 +201,7 @@
           <button class="reset-btn" on:click={reset}>➕ Neuen Link erstellen</button>
         </div>
       {:else}
-        <div class="error-content" in:fade={{ delay: 200 }}>
+        <div class="error-content">
           <div class="error-icon">😕</div>
           <h3>Oops!</h3>
           <p>{result.message}</p>
@@ -613,6 +613,8 @@
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.2s ease;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
   }
   
   .short-link:hover {
@@ -633,6 +635,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    user-select: all;
+    -webkit-user-select: all;
+    cursor: text;
   }
   
   .copy-btn {
@@ -646,11 +651,20 @@
     cursor: pointer;
     transition: all 0.2s;
     width: 100%;
+    position: relative;
+    z-index: 10;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
   }
   
   .copy-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
+  }
+  
+  .copy-btn:active {
+    transform: translateY(0);
   }
   
   .copy-btn.copied {
