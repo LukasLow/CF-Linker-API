@@ -4,6 +4,11 @@
   "type": "module",
   "description": "Cloudflare Worker Link-Shortener",
   "main": "src/index.js",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy"
+  },
   "devDependencies": {
     "wrangler": "latest"
   }

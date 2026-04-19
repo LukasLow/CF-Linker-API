@@ -16,12 +16,19 @@ function getSuffix(index) {
   return '-' + chars.charAt((index - 1) % chars.length);
 }
 
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
 export async function handleCreate(request, env) {
   const authHeader = request.headers.get('Authorization');
   
   // Auth immer erforderlich
   if (authHeader !== `Bearer ${env.AUTH_PASSWORD}`) {
-    return new Response('Unauthorized', { status: 401 });
+    return jsonResponse({ message: 'Unauthorized - Falsches Passwort' }, 401);
   }
 
   try {
@@ -29,7 +36,7 @@ export async function handleCreate(request, env) {
     const { key, url } = body;
 
     if (!url) {
-      return new Response('Missing url', { status: 400 });
+      return jsonResponse({ message: 'URL ist erforderlich' }, 400);
     }
 
     let finalKey = key;
@@ -48,7 +55,7 @@ export async function handleCreate(request, env) {
         index++;
         tryKey = finalKey + getSuffix(index);
         if (index > 62) {
-          return new Response('Key space exhausted', { status: 409 });
+          return jsonResponse({ message: 'Key space exhausted - zu viele Konflikte' }, 409);
         }
       }
       finalKey = tryKey;
@@ -56,11 +63,8 @@ export async function handleCreate(request, env) {
 
     await env.Links.put(finalKey, url, { expirationTtl: 15552000 }); // 180 days
 
-    return new Response(JSON.stringify({ key: finalKey, url }), {
-      status: 201,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return jsonResponse({ key: finalKey, url }, 201);
   } catch (error) {
-    return new Response(`Error: ${error.message}`, { status: 500 });
+    return jsonResponse({ message: `Error: ${error.message}` }, 500);
   }
 }
